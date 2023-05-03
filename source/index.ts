@@ -17,7 +17,6 @@ const main = async (): Promise<void> => {
 
   //middlewares
   app.use(express.json());
-  // app.use(cors());
 
   const port = process.env.PORT;
 
