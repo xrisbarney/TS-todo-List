@@ -1,20 +1,18 @@
-// import "reflect-metadata";
+import "reflect-metadata";
 import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import connectDB from "./ormconfig";
-// import { createConnection } from "typeorm";
-// import todoRouter from "./routes/todo.routes";
-// import { ToDo } from "./Entities/ToDo";
-// dotenv.config({
-//   allowEmptyValues: true,
-//   example: "./.env",
-// });
+
+
+import todoListRouter from "./routes/todoList.routes";
 require('dotenv').config()
 
 
 
 const main = async (): Promise<void> => {
+  // Create connection with DB
+  connectDB;
   const app = express();
 
   //middlewares
@@ -22,24 +20,12 @@ const main = async (): Promise<void> => {
   // app.use(cors());
 
   const port = process.env.PORT;
-  // const connection = await createConnection({
-  //   type: "postgres",
-  //   username: process.env.USER,
-  //   password: process.env.PASSWORD,
-  //   database: "typedo",
-  //   logging: true,
-  //   host: process.env.HOST,
-  //   synchronize: true,
-  //   port: process.env.DATABASE_PORT,
-  //   entities: [ToDo],
-  // });
 
-  // if (connection.isConnected) {
-  //   console.log("Connected to Postgres");
-  // }
-
-  // //routes
-  // app.use("/", todoRouter);
+  //routing
+  app.use("/api", todoListRouter);
+  app.get('/', (req, res) => {
+    res.send('The API endpoints are at /api/v1/!');
+  });
 
   app.listen(port, (): void => {
     console.log(`Server is running on port ${port}`);
