@@ -20,9 +20,9 @@ This application used a docker container to run the PostGres database instance. 
   POSTGRES_DB: todolist
   ```
 - Run the docker compose file in detached mode
-```
-docker-compose up -d
-```
+  ```
+  docker-compose up -d
+  ```
 
 ### Setting up the Node application
 <i>It is assumed you have node already installed</i>
@@ -30,38 +30,38 @@ docker-compose up -d
 In order to run the node application follow the steps below:
 
 - Clone the repository.
-```
-git clone https://github.com/xrisbarney/TS-todo-List.git
-```
+  ```
+  git clone https://github.com/xrisbarney/TS-todo-List.git
+  ```
 - Enter the cloned directory
 - Install the application dependencies.
-```
-npm install
-```
+  ```
+  npm install
+  ```
 - Create a .env file in the root directory of the cloned application. Then add the the content below:
-```
-PORT="3000"
-DATABASE_USER="<db_user>"
-DATABASE_HOST="<db_host>"
-DATABASE_PASSWORD="<db_password>"
-DATABASE_PORT="<docker_db_port>"
-DATABASE_NAME="<db_name>"
-DATABASE_URL=postgres://<db_user>:<db_password>@<db_host>:<docker_db_port>/<db_name>?sslmode=disable
-```
+  ```
+  PORT="3000"
+  DATABASE_USER="<db_user>"
+  DATABASE_HOST="<db_host>"
+  DATABASE_PASSWORD="<db_password>"
+  DATABASE_PORT="<docker_db_port>"
+  DATABASE_NAME="<db_name>"
+  DATABASE_URL=postgres://<db_user>:<db_password>@<db_host>:<docker_db_port>/<db_name>?sslmode=disable
+  ```
 Ensure you replace all variables in <> with their proper values.
 - Start the application by running the command below:
-```
-npm start
-```
+  ```
+  npm start
+  ```
 
 - To build the application for prod environments/transpile to JavaScript, run the command below
-```
-npm build
-```
+  ```
+  npm build
+  ```
 - To run the built application in detached mode, run the command below:
-```
-pm2 start npm -- build/index.js
-```
+  ```
+  pm2 start npm -- build/index.js
+  ```
 
 ## Extending the API to support user management
 To support user management, the following will need to be taken into consideration:
