@@ -24,9 +24,16 @@ export const singleTodoItem = async (req: Request, res: Response): Promise<void>
         id: id
       }
     });
-    res.status(200).json({ status: "success", message: "To do items with ID " + id + " retrieved", data: [todoItem] });
+
+    // check if the todo id exists
+    if (todoItem) {
+      res.status(200).json({ status: "success", message: `To do items with ID ${id} retrieved`, data: [todoItem] });
+    } else {
+      res.status(200).json({ status: "error", message: `To do item with ID ${id} not found` });
+    }
+
   } catch (error) {
-    res.status(404).json({ error });
+    res.status(500).json({ status: "error", message: "error" });
   }
 };
 
@@ -57,7 +64,7 @@ export const addTodoItem = async (req: Request, res: Response): Promise<void> =>
         }]
       });
     } catch (error) {
-      res.status(404).json({ error });
+      res.status(500).json({ status: "error", message: "error" });
     }
   } else if (todoName && existingTodo) {
     res.status(422).json({ status: "error", message: "To Do item name already exists" });
@@ -68,28 +75,41 @@ export const addTodoItem = async (req: Request, res: Response): Promise<void> =>
 
 
 // Update a todo item by ID
-export const updateTodoItemStatus = async (req: Request, res: Response): Promise<void> => {
+export const updateTodoItem = async (req: Request, res: Response): Promise<void> => {
   const id: number = parseInt(req.body?.id);
-  const t = await TodoList.findOne({
+  const todoItem = await TodoList.findOne({
     where: {
       id: id
     }
   });
-  if (t) {
-    t.isCompleted = !t.isCompleted;
-    await t.save();
-    res.status(200).json({ message: `Todo changed to ${t.isCompleted}` });
+  if (todoItem) {
+    todoItem.todoName = req.body.todoName ? req.body.todoName : todoItem.todoName;
+    todoItem.isCompleted = req.body.isCompleted ? req.body.isCompleted : todoItem.isCompleted;
+
+
+    try {
+      await todoItem.save();
+      res.status(200).json({ status: "success", message: `Todo item with ID ${todoItem.id} updated`, data: [todoItem] });
+    } catch (error) {
+      res.status(500).json({ status: "error", message: "error" });
+    }
   } else {
-    res.status(404).json({ message: "No To Do found" });
+    res.status(404).json({ status: "error", message: "No todo item with that ID found" });
   }
 };
 
 export const removeTodoItem = async (req: Request, res: Response): Promise<void> => {
   const id: number = parseInt(req.params?.id);
   try {
-    const t = await TodoList.delete({ id });
-    res.status(204).json({ message: "To Do successfully deleted" });
+    const todoItem = await TodoList.delete({ id });
+    console.log(todoItem["affected"]);
+    // if (todoItem["affected"] > 0) {
+    res.status(204).json({ status: "success", message: "Todo item successfully deleted" });
+    // } else {
+    //   res.status(404).json({ status: "error", message: "No todo item with that ID found" });
+    // }
+
   } catch (error) {
-    res.status(404).json({ error });
+    res.status(500).json({ status: "error", message: "error" });
   }
 };
