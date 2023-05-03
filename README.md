@@ -63,3 +63,14 @@ npm build
 pm2 start npm -- build/index.js
 ```
 
+## Extending the API to support user management
+To support user management, the following will need to be taken into consideration:
+- We will need to create a User entity and model that maps to a users table in the database. The User entity will have a one-to-many relationship with the Todo entity, where each user can have multiple todos.
+- We'll also need to update the Todo entity to include a user field that represents the owner hof the todo.
+- We'll need to add login and registration endpoints.
+- JWT will be added to generate tokens for users after successful login.
+- All endpoints will be updated to validate JWT tokens before providing responses.
+- Queries will be updated to retrieve requests mapped to a specific user ID.
+- Requests to the endpoints will have to be sent with an authorization header.
+
+
