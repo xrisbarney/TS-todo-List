@@ -3,10 +3,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import connectDB from "./ormconfig";
-
-
 import todoListRouter from "./routes/todoList.routes";
-require('dotenv').config()
+require('dotenv').config();
 
 
 
