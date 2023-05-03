@@ -84,7 +84,7 @@ export const updateTodoItem = async (req: Request, res: Response): Promise<void>
   });
   if (todoItem) {
     todoItem.todoName = req.body.todoName ? req.body.todoName : todoItem.todoName;
-    todoItem.isCompleted = req.body.isCompleted ? req.body.isCompleted : todoItem.isCompleted;
+    todoItem.isCompleted = req.body.isCompleted != todoItem.isCompleted ? req.body.isCompleted : todoItem.isCompleted;
 
 
     try {
